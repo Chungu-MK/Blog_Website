@@ -35,7 +35,7 @@ login_manager.init_app(app)
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', "sqlite:///posts.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -246,7 +246,7 @@ def about():
 
 # function for sending email
 def sendmail(email, message, username, users_phone_number):
-    message=f"Subject: New Message\n\nUsername: {username}\nPhone Number: {users_phone_number}Email: {email}\nMessage{message}"
+    message=f"Subject: New Message\n\nUsername: {username}\nPhone Number: {users_phone_number}\nEmail: {email}\nMessage{message}"
     with SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls()
         connection.login(MY_EMAIL,MY_PASS)
